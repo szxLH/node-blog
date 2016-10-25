@@ -1,0 +1,10 @@
+{
+	"auth": {
+		"title": "Dashboard",
+		"username": "Username",
+		"password": "Password",
+		"login": "Login",
+		"wrong_info": "Wrong username or password",
+		"logout": "Logout"
+	}	
+}

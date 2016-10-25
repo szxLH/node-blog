@@ -1,0 +1,19 @@
+{
+  "SiteName": "llBlog",
+  "SiteDomain": "www.foreverll.com",
+  "RecordNo": "foreverll",
+  "LogoPath": "/images/zhr.jpg",
+  "PageSize": "10",
+  "ExpandMenu": "false",
+  "CacheExpired": "300",
+  "TranslateKey": "",
+  "EnableStatistics": "true",
+  "StatisticsId": "",
+  "EnableShare": "true",
+  "JiaThisId": "",
+  "ShowComments": "true",
+  "ChangyanId": "",
+  "ChangyanConf": "",
+  "ShowGuestbook": "true",
+  "YouyanId": ""
+}

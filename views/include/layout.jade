@@ -1,0 +1,23 @@
+doctype html
+html
+    head
+        meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+        //- meta(charset='utf-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0')
+        link(href='/libs/bootstrap/dist/css/bootstrap.min.css', rel='stylesheet')
+        title=title
+    body.fuelux
+        if(isRoot)
+            link(href='/stylesheets/loading.css', rel='stylesheet')
+            #home-loading.home-loading
+                #loading-con.loading-con(style='display:none;')
+                    .loading-circle
+                    script.
+                        var home_loading_begin = new Date();
+                        document.body.style.overflow = "hidden";
+                        function imgLoad() {
+                            document.getElementById("home-loading").style.background = "#f3f3f4";
+                            document.getElementById("loading-con").style.display = "block";
+                        }
+                    img#loadingImg(alt='loading', src=settings.LogoPath, onload='imgLoad();')
+        block content
