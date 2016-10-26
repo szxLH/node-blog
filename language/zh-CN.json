@@ -6,5 +6,12 @@
 		"login": "登录",
 		"wrong_info": "用户名或密码错误！",
 		"logout": "注销登录"
+	},
+	"Category": {
+		"all": "全部分类",
+		"uncate": "未分类"
+	},
+	"error": {
+		"db_1": "MongoDB连接错误"
 	}
 }

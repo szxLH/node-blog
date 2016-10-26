@@ -19,13 +19,11 @@ passport.use(new Strategy(
 		}
 	}))
 
-passport.serializeUser(function (user, cb) { //保存user对象
-	console.log('serializeUser user=', user)
+passport.serializeUser(function (user, cb) {
 	cb(null, user.Id)
 })
 
-passport.deserializeUser(function (id, cb) { //刪除user对象
-	console.log('deserializeUser id=', id)
+passport.deserializeUser(function (id, cb) {
 	var account = require('../config/account')
 	if (account.Id === id) {
 		return cb(null, account)
@@ -33,7 +31,6 @@ passport.deserializeUser(function (id, cb) { //刪除user对象
 		return cb(err)
 	}
 })
-
 
 router.get('/login', function (req, res, next) {
 	tool.getConfig(path.resolve(__dirname, '../config/settings.json'), function (err, settings) {
@@ -76,10 +73,17 @@ router.post('/login', function (req, res, next) {
 	})(req, res, next)
 })
 
-router.post('/logout', function (req, res) {
-	console.log('logout')
+router.get('/logout', function (req, res) {
     req.logout()
-    res.redirect('/login')
+    res.json({
+    	valid: true,
+    	url: '/login'
+    })
+    // res.writeHead(302, {
+    // 	'Location': '/login'
+    // })
+    // res.end()
+    // res.redirect('/login')
 })
 
 module.exports = router

@@ -6,5 +6,12 @@
 		"login": "Login",
 		"wrong_info": "Wrong username or password",
 		"logout": "Logout"
-	}	
+	},	
+	"Category": {
+		"all": "All Category",
+		"uncate": "Uncategorized"
+	},
+	"error": {
+		"db_1": "MongoDB connection error"
+	}
 }

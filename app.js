@@ -43,7 +43,7 @@ app.use(passport.session())
 
 app.use('/', routes)
 app.use('/', auth)  //1
-app.use('/admin', require('connect-ensure-login').ensureLoggedIn('/login'), admin)
+app.use('/admin', require('connect-ensure-login').ensureLoggedIn('/login'), admin)  //2
 
 // app.use('/users', users)
 

@@ -4,11 +4,14 @@ block content
         i.fa.fa-sign-out.fa-fw #{__('auth.logout')}
     script(type='text/javascript', src='/libs/jquery/dist/jquery.min.js', charset='utf-8')
     script.
-        $('#logout')
-        $.ajax({
-            url: '/logout',
-            type: 'POST',
-            success: function(data){
-
-            }
+        $('#logout').click(function() {
+            $.ajax({
+                url: '/logout',
+                type: 'POST',
+                success: function(data){
+                    if (data.valid){
+                        location.href = data.url
+                    }
+                }
+            })
         })
