@@ -46,3 +46,30 @@ exports.generateKey = function (prefix, obj) {
     }
     return key
 }
+
+/**
+ * 搜索JSON数组
+ * @param jsonArray JSON数组
+ * @param conditions 查询条件，如 {"name":"value"}
+ * @returns {Object} 匹配的JSON对象
+ */
+exports.jsonQuery = function (jsonArray, conditions) {
+    var i = 0,
+        len = jsonArray.length,
+        json,
+        condition,
+        flag
+    for (; i < len; i++) {
+        flag = true
+        json = jsonArray[i]
+        for (condition in conditions) {
+            if (json[condition] !== conditions[condition]) {
+                flag = false
+                break
+            }
+        }
+        if (flag) {
+            return json
+        }
+    }
+}
