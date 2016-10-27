@@ -1,6 +1,6 @@
-var postModel = require('../models/post').PostModel;
-var redisClient = require('../utility/redisClient');
-var tool = require('../utility/tool');
+var postModel = require('../models/post').postModel
+var redisClient = require('../utility/redisClient')
+var tool = require('../utility/tool')
 
 function getPostsQuery(params) {
 	var query = {}
@@ -81,7 +81,7 @@ exports.getPosts = function (params, callback) {
 }
 
 exports.getPageCount = function (params, callback) {
-    var cache_key = tool.generateKey('posts_count', params);
+    var cache_key = tool.generateKey('posts_count', params)
 	redisClient.getItem(cache_key, function (err, pageCount) {
 		if (err) {
 			return callback(err)

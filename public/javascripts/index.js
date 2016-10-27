@@ -8,7 +8,7 @@ function requestData () {
         type: $('#filterForm')[0].method,
         data: $('#filterForm').serialize(),
         success: function (res) {
-            
+            console.log(res)
         }
     })
 }
