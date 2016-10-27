@@ -5,6 +5,7 @@ var category = require('../proxy/category')
 var post = require('../proxy/post')
 var moment = require('moment')
 var url = require('url')
+var tool = require('../utility/tool')
 // 1. 获取分类、文章列表、文章页数
 // 2. 根据分类alias获取分类对象
 // 3. 根据分类对象查询文章列表、文章页数
