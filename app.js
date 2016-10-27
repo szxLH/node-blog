@@ -9,6 +9,7 @@ var bodyParser = require('body-parser')
 var routes = require('./routes/index')
 var auth = require('./routes/auth')
 var admin = require('./routes/admin')
+var blog = require('./routes/blog')
 
 var passport = require('passport');
 var i18n = require('./models/i18n')
@@ -44,7 +45,7 @@ app.use(passport.session())
 app.use('/', routes)
 app.use('/', auth)  //1
 app.use('/admin', require('connect-ensure-login').ensureLoggedIn('/login'), admin)  //2
-
+app.use('/blog', blog)
 // app.use('/users', users)
 
 // catch 404 and forward to error handler

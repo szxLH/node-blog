@@ -45,7 +45,6 @@ exports.getAll = function (isAll, cached, callback) {
 			if (categories) {
 				return callback(null, categories)
 			}
-			console.log('categoryModel=', categoryModel)
 			categoryModel.find(function (err, categories) {
 				if (err) {
 					return callback(err)
@@ -75,5 +74,36 @@ exports.getAll = function (isAll, cached, callback) {
 			}
 			callback(null, categories)
 		})
+	}
+}
+
+exports.getByAlias = function (alias, callback) {
+	var cached_key = 'categories_' + alias
+	if (alias) {
+		if (alias === 'other') {
+			return callback(null, cateOther)
+		} else {
+			redisClient.getItem(cached_key, function (err, category) {
+				if (err) {
+					return callback(err)
+				}
+				if (category) {
+					return callback(null, category)
+				}
+				categoryModel.findOne({"Alias": cached_key}, function (err, category) {
+					if (err) {
+						return callback(err)
+					}
+					redisClient.setItem(cached_key, category, redisClient.defaultExpired, function (err) {
+						if (err) {
+							return callback(err)
+						}
+					})
+					return callback(null, category)
+				})
+			})
+		}
+	} else {
+		return callback(null, cateOther)
 	}
 }

@@ -1,0 +1,91 @@
+extends ../include/layout
+block content
+    link(href='/stylesheets/selectlist.css', rel='stylesheet')
+    .container-fluid.render-body
+        .row
+            .col-md-2.hidden-sm.hidden-xs.category-block
+                .category-top 文章分类
+                .category-split
+                .category-list
+                    ul.nav.nav-pills.nav-stacked
+                        each cate in cateData
+                            li(class='#{currentCate === cate.Alias ? "active" : ""}')
+                                if(!cate.Link)
+                                    a(href='/blog#{cate.Alias ? "/" + cate.Alias : ""}')
+                                        img(src=cate.Img)
+                                        span=cate.CateName
+                                else
+                                    a(href=cate.Link, target='_blank')
+                                        img(src=cate.Img)
+                                        span=cate.CateName
+            .col-md-8.col-md-offset-2.blog-list
+                .row.data-block
+                    .col-md-12
+                        .list-wrap
+                            .row.top-bar
+                                form#filterForm(action='/blog/getPosts', method='POST')
+                                    .col-md-7.col-sm-4.hidden-xs.list-top-left
+                                        a.current(title='按日期排序',sort='date') 日期
+                                        = ' '
+                                        a(title='按标题排序',sort='title') 标题
+                                        input#CateAlias.hidden(type='text', value=currentCate, name='CateAlias')
+                                        input#SortBy.hidden(type='text', value=0, name='SortBy')
+                                        input#PageIndex.hidden(type='text', value=1, name='PageIndex')
+                                        input#PageSize.hidden(type='text', value=settings.PageSize, name='PageSize')
+                                    .col-md-5.list-top-right
+                                        .input-group
+                                            .input-group-btn
+                                                .btn-group.selectlist(data-resize='auto', data-initialize='selectlist')
+                                                    button.btn.btn-white.dropdown-toggle(data-toggle='dropdown', type='button')
+                                                        span.selected-label
+                                                        span.caret
+                                                        span.sr-only Toggle Dropdown
+                                                    ul.dropdown-menu.animated-quick.fadeInDown(role='menu')
+                                                        li.active(data-value='0', data-selected='true')
+                                                            a(href='#') 全文
+                                                        li(data-value='1')
+                                                            a(href='#') 标题
+                                                        li(data-value='2')
+                                                            a(href='#') 标签
+                                                        li(data-value='3')
+                                                            a(href='#') 日期
+                                                    input#FilterType.hidden.hidden-field(type='text',readonly = "readonly", aria_hidden = "true",name='FilterType')
+                                            input#Keyword.form-control(type='text',placeholder = '关键字',name='Keyword')
+                                            .input-group-btn
+                                                button#btnFilter.btn.btn-white(type='button')
+                                                    i.fa.fa-search
+                                                    =' '
+                                                    span.hidden-sm.hidden-xs 搜索
+                            ol.list-unstyled
+                                li#page1
+                                    .blog-item(uid='why-mobile-web-apps-are-slow')
+                                        h4
+                                          a(title='为什么移动Web应用程序很慢', target='_blank', href='http://www.cnblogs.com/codemood/p/3213459.html')
+                                            i.fa.fa-link
+                                            |  web
+                                        span(title='文章分类')
+                                          i.fa.fa-map-signs         
+                                          |         
+                                          a(href='/blog/other', target='_blank') 未分类
+                                        span.margin-left-20(title='发布时间')
+                                          i.fa.fa-clock-o         
+                                          |  2016-04-04
+                                        a.pull-right.margin-left-20.hidden-xs(title='www.cnblogs.com', target='_blank', href='http://www.cnblogs.com')
+                                          i.fa.fa-globe
+                                          |  www.cnblogs.com
+                                        .clearfix     
+                                        p  JavaScript Web   
+                                      .hr-line-dashed
+                            #load-list.spinner(style='display: none;')
+                                .bounce1
+                                .bounce2
+                                .bounce3
+                            #no-more.text-muted.text-center(style='display: none;')
+                                | 没有更多。。。
+            .col-md-2.hidden-sm.hidden-xs.empty-block
+    script(type='text/javascript', src='/javascripts/selectlist.js', charset='utf-8')
+    script(type='text/javascript', src='/javascripts/index.js', charset='utf-8')
+    script.
+        setTimeout(function() {
+            document.querySelector('#home-loading').style.display = 'none'
+        }, 1000)

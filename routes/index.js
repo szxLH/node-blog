@@ -25,7 +25,7 @@ router.get('/', function(req, res, next) {
 					cb(null, categories)
 				}
 			})
-		}], function(err, result){
+		}], function(err, results){
 			if (err) {
 				next(err)
 			} else {

@@ -2,7 +2,6 @@ extends ../include/layout
 block content
     button#logout(type='button', autocomplete='off')
         i.fa.fa-sign-out.fa-fw #{__('auth.logout')}
-    script(type='text/javascript', src='/libs/jquery/dist/jquery.min.js', charset='utf-8')
     script.
         $('#logout').click(function() {
             $.ajax({

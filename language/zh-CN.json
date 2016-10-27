@@ -13,5 +13,10 @@
 	},
 	"error": {
 		"db_1": "MongoDB连接错误"
+	},
+	"blog": {
+		"index": {
+			"reach_end": "blog.index.reach_end"
+		}
 	}
 }
