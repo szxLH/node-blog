@@ -78,8 +78,7 @@ router.post('/getPosts', function (req, res, next) {
                     cb(null, data);
                 }
             })
-        }
-		],function (err, results) {
+        }],function (err, results) {
 			var posts,
 				pageCount,
 				categories,
@@ -113,6 +112,9 @@ router.post('/getPosts', function (req, res, next) {
 					if (cateItem) {
 						result[i].CategoryAlias = cateItem.Alias
 						result[i].CateName = cateItem.CateName
+					} else {
+						result[i].CategoryAlias = 'other'
+						result[i].CateName = '未分类'
 					}
 				}
 				res.send({
@@ -140,6 +142,18 @@ router.post('/getPosts', function (req, res, next) {
 // 	]
 
 		})
+})
+
+router.post('/selfpost', function (req, res, next) {
+	post.selfInsertPost(function (err, post) {
+		if (err) {
+			next(err)
+		} else {
+			res.send({
+				post: post
+			})
+		}
+	})
 })
 
 module.exports = router

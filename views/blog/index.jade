@@ -57,25 +57,6 @@ block content
                                                     =' '
                                                     span.hidden-sm.hidden-xs 搜索
                             ol.list-unstyled
-                                li#page1
-                                    .blog-item(uid='why-mobile-web-apps-are-slow')
-                                        h4
-                                          a(title='为什么移动Web应用程序很慢', target='_blank', href='http://www.cnblogs.com/codemood/p/3213459.html')
-                                            i.fa.fa-link
-                                            |  web
-                                        span(title='文章分类')
-                                          i.fa.fa-map-signs         
-                                          |         
-                                          a(href='/blog/other', target='_blank') 未分类
-                                        span.margin-left-20(title='发布时间')
-                                          i.fa.fa-clock-o         
-                                          |  2016-04-04
-                                        a.pull-right.margin-left-20.hidden-xs(title='www.cnblogs.com', target='_blank', href='http://www.cnblogs.com')
-                                          i.fa.fa-globe
-                                          |  www.cnblogs.com
-                                        .clearfix     
-                                        p  JavaScript Web   
-                                      .hr-line-dashed
                             #load-list.spinner(style='display: none;')
                                 .bounce1
                                 .bounce2
@@ -85,7 +66,3 @@ block content
             .col-md-2.hidden-sm.hidden-xs.empty-block
     script(type='text/javascript', src='/javascripts/selectlist.js', charset='utf-8')
     script(type='text/javascript', src='/javascripts/index.js', charset='utf-8')
-    script.
-        setTimeout(function() {
-            document.querySelector('#home-loading').style.display = 'none'
-        }, 1000)

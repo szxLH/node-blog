@@ -55,7 +55,7 @@ exports.removeItem = function (key, callback) {
         if (err) {
             return callback(err)
         }
-        return callback(null)
+        return callback && callback(null)
     })
 }
 

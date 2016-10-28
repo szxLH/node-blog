@@ -1,6 +1,7 @@
 var postModel = require('../models/post').postModel
 var redisClient = require('../utility/redisClient')
 var tool = require('../utility/tool')
+var shortid = require('shortid')
 
 function getPostsQuery(params) {
 	var query = {}
@@ -49,6 +50,7 @@ function getPostsQuery(params) {
 
 exports.getPosts = function (params, callback) {
 	var cache_key = tool.generateKey('posts', params)
+    // redisClient.removeItem(cache_key)
 	redisClient.getItem(cache_key, function (err, posts) {
 		if (err) {
 			return callback(err)
@@ -64,7 +66,7 @@ exports.getPosts = function (params, callback) {
 		options.limit = size
 		options.sort = params.sortBy === 'title' ? 'Title -CreateTime' : '-CreateTime'
 		var query = getPostsQuery(params)
-		postModel.find(query, {}, options, function (err, posts) {
+        postModel.find(query, {}, options, function (err, posts) {
 			if (err) {
 				return callback(err)
 			}
@@ -95,7 +97,7 @@ exports.getPageCount = function (params, callback) {
 				return callback(err)
 			}
 			if (count) {
-				redisClient.setItme(cache_key, count, redisClient.defaultExpired, function (err) {
+				redisClient.setItem(cache_key, count, redisClient.defaultExpired, function (err) {
 					if (err) {
 						return callback(err)
 					}
@@ -104,4 +106,30 @@ exports.getPageCount = function (params, callback) {
 			return callback(null, count)
 		})
 	})
+}
+
+
+// 自定义插入数据库
+exports.selfInsertPost = function () {
+    var options = {
+        _id: shortid.generate(),
+        CreateTime: new Date(),
+        ModifyTime: new Date(),
+
+        Title: 'my first post',
+        Alias: 'artical alias',
+        Summary: 'artical summary',
+        Source: '1',
+        Content: 'my first artical. please read it carefully, and markdown your suggestion',
+        CateGoryId: 'other',
+        Labels: 'no label',
+        Url: '127.27.31.201',
+        ViewCount: 0,
+        IsDraft: false,
+        IsActive: true
+    }
+    postModel.create(options, function (err, data) {
+        console.log('err', err)
+        console.log('data', data)
+    })
 }

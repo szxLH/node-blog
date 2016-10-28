@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express')
+var router = express.Router()
 var path = require('path')
 var async = require('async')
 var tool = require('../utility/tool')
@@ -29,17 +29,17 @@ router.get('/', function(req, res, next) {
 			if (err) {
 				next(err)
 			} else {
-	            settings = results[0];
-	            categories = results[1];
+	            settings = results[0]
+	            categories = results[1]
 	            res.render('blog/index', {
 	                cateData: categories,
 	                settings: settings,
 	                title: settings['SiteName'],
 	                currentCate: '',
 	                isRoot: true
-	            });
+	            })
 	        }
 		})  
-});
+})
 
 module.exports = router
