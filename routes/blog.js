@@ -122,6 +122,7 @@ router.post('/getPosts', function (req, res, next) {
 					pageCount: pageCount
 				})
 			}
+
 // results:
 // 	[ 
 // 		[ [], 0 ],
@@ -145,13 +146,9 @@ router.post('/getPosts', function (req, res, next) {
 })
 
 router.post('/selfpost', function (req, res, next) {
-	post.selfInsertPost(function (err, post) {
+	post.selfInsertPost(function (err) {
 		if (err) {
 			next(err)
-		} else {
-			res.send({
-				post: post
-			})
 		}
 	})
 })

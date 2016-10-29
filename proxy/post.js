@@ -2,6 +2,7 @@ var postModel = require('../models/post').postModel
 var redisClient = require('../utility/redisClient')
 var tool = require('../utility/tool')
 var shortid = require('shortid')
+var crawl = require('./crawl')
 
 function getPostsQuery(params) {
 	var query = {}
@@ -108,28 +109,52 @@ exports.getPageCount = function (params, callback) {
 	})
 }
 
+function savePosts (array, callback) {
+	var posts = []
+	array.forEach(function (post) {
+		posts.push({
+			_id: shortid.generate(),
+		    CreateTime: new Date(),
+		    ModifyTime: new Date(), 
+
+		    Title: post.Title,
+            Alias: post.Title + 'Alias',
+            Summary: post.Summary,
+            Source: '1',
+            Content: post.Title + 'content',
+            CateGoryId: 'other',
+            Labels: post.Title + 'Labels',
+            Url: post.Url,
+            IsDraft: post.IsDraft === 'True',
+            IsActive: true,
+		})
+	})
+	if (posts && posts.length > 0) {
+		postModel.collection.insert(posts, function (err) {
+            if (err) {
+                return callback(err);
+            }
+            return callback(null);
+        })
+	}
+}
 
 // 自定义插入数据库
-exports.selfInsertPost = function () {
-    var options = {
-        _id: shortid.generate(),
-        CreateTime: new Date(),
-        ModifyTime: new Date(),
-
-        Title: 'my first post',
-        Alias: 'artical alias',
-        Summary: 'artical summary',
-        Source: '1',
-        Content: 'my first artical. please read it carefully, and markdown your suggestion',
-        CateGoryId: 'other',
-        Labels: 'no label',
-        Url: '127.27.31.201',
-        ViewCount: 0,
-        IsDraft: false,
-        IsActive: true
-    }
-    postModel.create(options, function (err, data) {
-        console.log('err', err)
-        console.log('data', data)
+exports.selfInsertPost = function (callback) {
+    crawl.fetchInternetPosts(function (err, posts) {
+    	if (err) {
+    		return callback(err)
+    	}
+    	if (posts && posts.length > 0) {
+    		for(var i = 0, len = posts.length, postsArray = []; i < len; i++) {
+    			postsArray = postsArray.concat(posts[i])
+    		}
+    		savePosts(postsArray, function (err) {
+    			if (err) {
+    				return callback(err)
+    			}
+    		})
+    	}
     })
 }
+

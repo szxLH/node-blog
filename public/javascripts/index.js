@@ -1,12 +1,53 @@
 ﻿var home_loading_timeout = 2000
-var timeout = 1000
+var timeout = 2000
 var begin = new Date()
 var isLoading = false
 var pageCount
+var bSearchChange = false
 
 $(function(){
     requestData()
     // insertPost()
+
+    $('body').on({
+        click: function () {
+            $(this).remove()
+            begin = new Date()
+            $("#load-list").show()
+            isLoading = true
+            $("#PageIndex").val(parseInt($("#PageIndex").val()) + 1)
+            requestData()
+        }
+    }, "#btn-load")
+
+    $('.list-top-left').on('click', 'a', function () {
+        if (!$(this).hasClass("current")) {
+            $(this).addClass("current").siblings().removeClass("current")
+            $(".list-wrap ol").html("")
+            $("#btn-load").remove()
+            $("#no-more").remove()
+            begin = new Date()
+            $("#load-list").show()
+            $("#SortBy").val($(this).attr("sort"))
+            $("#PageIndex").val(1)
+            requestData()
+        }
+    })
+
+    $('#btnFilter').click(function(){
+        if (!bSearchChange) return
+        bSearchChange = false
+        $(".list-wrap ol").html("")
+        $("#btn-load").remove()
+        $("#no-more").remove()
+        begin = new Date()
+        $("#load-list").show()
+        $("#PageIndex").val(1)
+        requestData()
+    })
+    $("#filterForm").change(function(){
+        bSearchChange = true
+    })
 })
 
 function requestData () {
@@ -21,8 +62,8 @@ function requestData () {
             if (end - begin > timeout) {
                 addPage($("#PageIndex").val(), posts);
             } else {
-                var delay = begin - (end - begin)
-                var t = setTimeout(addPage($("#PageIndex").val(), posts), delay)
+                var delay = timeout - (end - begin)
+                var t = setTimeout('addPage($("#PageIndex").val(), posts)', delay)
             }
         }
     })
@@ -34,17 +75,17 @@ function insertPost () {
         url: '/blog/selfpost',
         type: 'post',
         success: function (res) {
-            console.log(res)
+            // console.log(res)
         }
     })
 }
 
 function addPage(index, data) {
-    console.log('data=', data)
     $("#load-list").hide();
     if (data.length > 0) {
         $(".list-wrap ol").append("<li id=\"page" + index + "\"></li>");
         $.each(data, function (key, value) {
+            value.Title = value.Title.replace(/<\S*>/, '')
             var itemHtml;
             if (value.Source == "1") {
                 itemHtml = "<div uid=\""
@@ -95,10 +136,10 @@ function addPage(index, data) {
         });
         $("body").append("<script id=\"cy_cmt_num\" src=\"http://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cyrUoGjWj\"><\/script>");
         var percent = 100 / index;
-        $("#page-nav li").css("height", percent + "%");
-        $("[data-toggle='tooltip']:visible").tooltip({
-            container: "body"
-        });
+        // $("#page-nav li").css("height", percent + "%");
+        // $("[data-toggle='tooltip']:visible").tooltip({
+        //     container: "body"
+        // });
         if ($("#PageIndex").val() == pageCount) {
             if (pageCount != 1) {
                 $(".list-wrap").append("<div id=\"no-more\" class=\"text-muted text-center\">没有更多数据<\/div>");
